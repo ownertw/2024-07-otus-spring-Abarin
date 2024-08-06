@@ -15,7 +15,7 @@ import java.util.List;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ServiceTest {
+public class TestServiceImplUnitTest {
     @Mock
     private IOService ioService;
 
