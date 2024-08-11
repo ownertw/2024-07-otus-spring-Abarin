@@ -1,0 +1,9 @@
+# Добавить сюда своих вопросов. Эту строку надо пропустить при настройке CsvToBean (withSkipLines)
+Is there life on Mars?;Science doesn't know this yet%true|Certainly. The red UFO is from Mars. And green is from Venus%false|Absolutely not%false
+How should resources be loaded from jar in Java?;ClassLoader#getResourceAsStream or ClassPathResource#getInputStream%true|ClassLoader#getResource#getFile + FileReader%false|Wingardium Leviosa%false
+Which option is a good way to handle the exception?;@SneakyThrow%false|e.printStackTrace()%false|Rethrow with wrapping in business exception (for example, QuestionReadException)%true|Ignoring exception%false
+What is the main purpose of the try-with-resources statement in Java?;To automatically close resources like files and sockets%true|To improve performance of the code%false|To handle exceptions more effectively%false
+Which of the following is a valid way to create a thread in Java?;Implementing the Runnable interface and overriding the run() method%true|Extending the Thread class and overriding the start() method%false|Using lambda expressions with Thread constructor%true
+What does the final keyword signify in Java?;A variable cannot be reassigned%true|A class cannot be subclassed%true|A method cannot be overridden%true|All of the above%true
+What is the output of System.out.println(0.1 + 0.2 == 0.3) in Java?;true%false|false%true|It depends on the JVM version%false
+Which collection type should be used for unique elements in Java?;List%false|Set%true|Map%false
