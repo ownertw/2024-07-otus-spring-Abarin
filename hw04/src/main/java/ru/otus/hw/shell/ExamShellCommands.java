@@ -14,7 +14,7 @@ public class ExamShellCommands {
     }
 
     @ShellMethod(value = "Run test for student", key = {"t", "test"})
-    public void runTestStudent() {
+    public void runTestForStudent() {
         testRunnerService.run();
     }
 }
