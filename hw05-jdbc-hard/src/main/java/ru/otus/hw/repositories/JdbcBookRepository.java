@@ -42,9 +42,9 @@ public class JdbcBookRepository implements BookRepository {
                        g.id AS genre_id,
                        g.name AS genre_name
                 FROM books b
-                JOIN authors a ON b.author_id = a.id
-                JOIN books_genres bg ON bg.book_id = b.id
-                JOIN genres g ON g.id = bg.genre_id
+                INNER JOIN authors a ON b.author_id = a.id
+                INNER JOIN books_genres bg ON bg.book_id = b.id
+                INNER JOIN genres g ON g.id = bg.genre_id
                 WHERE b.id = :id
                 """;
         Book book = namedParameterJdbcTemplate.query(query, Map.of("id", id), new BookResultSetExtractor());
@@ -83,7 +83,7 @@ public class JdbcBookRepository implements BookRepository {
                        a.id AS author_id,
                        a.full_name AS author_name
                 FROM books b
-                JOIN authors a ON b.author_id = a.id
+                INNER JOIN authors a ON b.author_id = a.id
                 """;
         return namedParameterJdbcTemplate.query(query, new BookRowMapper());
     }
@@ -182,7 +182,7 @@ public class JdbcBookRepository implements BookRepository {
 
             Author author = new Author(authorId, authorFullName);
 
-            return new Book(bookId, bookTitle, author, Collections.emptyList());
+            return new Book(bookId, bookTitle, author, new ArrayList<>());
         }
     }
 
@@ -195,13 +195,7 @@ public class JdbcBookRepository implements BookRepository {
             Book book = null;
             while (rs.next()) {
                 if (book == null) {
-                    book = new Book();
-                    book.setId(rs.getLong("book_id"));
-                    book.setTitle(rs.getString("book_title"));
-                    var author = new Author(rs.getLong("author_id"),
-                            rs.getString("author_name"));
-                    book.setAuthor(author);
-                    book.setGenres(new ArrayList<>());
+                    book = new BookRowMapper().mapRow(rs, rs.getRow());
                 }
                 var genre = new Genre(rs.getLong("genre_id"), rs.getString("genre_name"));
                 book.getGenres().add(genre);
