@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: "db/changelog/1.0/2024-09-01--genres.yaml"
+  - include:
+      file: "db/changelog/1.0/2024-09-01--authors.yaml"
+  - include:
+      file: "db/changelog/1.0/2024-09-01--books.yaml"
+  - include:
+      file: "db/changelog/1.0/2024-09-01--books_genres.yaml"
+  - includeAll:
+      path: "db/changelog/data/"
