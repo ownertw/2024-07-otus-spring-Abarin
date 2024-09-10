@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
@@ -29,6 +30,9 @@ class JpaBookRepositoryTest {
     private List<Genre> dbGenres;
 
     private List<Book> dbBooks;
+
+    @Autowired
+    private TestEntityManager testEntityManager;
 
     private static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()
@@ -95,10 +99,8 @@ class JpaBookRepositoryTest {
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
 
-        assertThat(repository.findById(returnedBook.getId()))
-                .isPresent()
-                .get()
-                .isEqualTo(returnedBook);
+        assertThat(testEntityManager.find(Book.class, returnedBook.getId()))
+                .isEqualTo(expectedBook);
     }
 
     @DisplayName("должен сохранять измененную книгу")
@@ -107,9 +109,7 @@ class JpaBookRepositoryTest {
         var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
-        assertThat(repository.findById(expectedBook.getId()))
-                .isPresent()
-                .get()
+        assertThat(testEntityManager.find(Book.class, expectedBook.getId()))
                 .isNotEqualTo(expectedBook);
 
         var returnedBook = repository.save(expectedBook);
@@ -117,17 +117,15 @@ class JpaBookRepositoryTest {
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
 
-        assertThat(repository.findById(returnedBook.getId()))
-                .isPresent()
-                .get()
-                .isEqualTo(returnedBook);
+        assertThat(testEntityManager.find(Book.class, returnedBook.getId()))
+                .isEqualTo(expectedBook);
     }
 
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
-        assertThat(repository.findById(1L)).isPresent();
+        assertThat(testEntityManager.find(Book.class, 1L)).isNotNull();
         repository.deleteById(1L);
-        assertThat(repository.findById(1L)).isEmpty();
+        assertThat(testEntityManager.find(Book.class, 1L)).isNull();
     }
 }

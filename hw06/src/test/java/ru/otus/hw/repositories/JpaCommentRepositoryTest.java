@@ -55,9 +55,7 @@ public class JpaCommentRepositoryTest {
                 .matches(comment -> comment.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedComment);
 
-        assertThat(repository.findById(returnedComment.getId()))
-                .isPresent()
-                .get()
+        assertThat(testEntityManager.find(Comment.class, returnedComment.getId()))
                 .isEqualTo(expectedComment);
     }
 
@@ -67,9 +65,7 @@ public class JpaCommentRepositoryTest {
         Book book = testEntityManager.find(Book.class, 1);
 
         var expectedComment = new Comment(1, "UpdatedBook", book);
-        assertThat(repository.findById(expectedComment.getId()))
-                .isPresent()
-                .get()
+        assertThat(testEntityManager.find(Comment.class, expectedComment.getId()))
                 .isNotEqualTo(expectedComment);
 
         var returnedComment = repository.save(expectedComment);
@@ -77,17 +73,15 @@ public class JpaCommentRepositoryTest {
                 .matches(comment -> comment.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedComment);
 
-        assertThat(repository.findById(returnedComment.getId()))
-                .isPresent()
-                .get()
-                .isEqualTo(returnedComment);
+        assertThat(testEntityManager.find(Comment.class, returnedComment.getId()))
+                .isEqualTo(expectedComment);
     }
 
     @Test
     @DisplayName("должен удалять комментарий по id ")
     void shouldDeleteBook() {
-        assertThat(repository.findById(1L)).isPresent();
+        assertThat(testEntityManager.find(Comment.class, 1L)).isNotNull();
         repository.deleteById(1L);
-        assertThat(repository.findById(1L)).isEmpty();
+        assertThat(testEntityManager.find(Comment.class, 1L)).isNull();
     }
 }
