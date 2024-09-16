@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.converters.CommentConverter;
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.repositories.BookRepository;
-import ru.otus.hw.repositories.CommentRepository;
 import ru.otus.hw.services.CommentService;
 import ru.otus.hw.services.CommentServiceImpl;
 

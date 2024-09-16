@@ -14,9 +14,6 @@ import ru.otus.hw.converters.GenreConverter;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.repositories.AuthorRepository;
-import ru.otus.hw.repositories.BookRepository;
-import ru.otus.hw.repositories.GenreRepository;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.BookServiceImpl;
 
