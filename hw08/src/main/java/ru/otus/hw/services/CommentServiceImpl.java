@@ -24,13 +24,11 @@ public class CommentServiceImpl implements CommentService {
     private final CommentConverter commentConverter;
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<CommentDto> findById(String id) {
         return commentRepository.findById(id).map(commentConverter::toDto);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<CommentDto> findByBookId(String bookId) {
         return commentRepository.findByBookId(bookId).stream()
                 .map(commentConverter::toDto)

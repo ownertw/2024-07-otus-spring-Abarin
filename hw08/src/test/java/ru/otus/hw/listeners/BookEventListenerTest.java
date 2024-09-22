@@ -22,7 +22,7 @@ public class BookEventListenerTest {
 
     @Test
     @DisplayName("При удалении книги должен удалиться комментарий")
-    void shouldRemoveCommentFromBooksWhenBookIsDeleted(){
+    void shouldRemoveCommentFromBooksWhenBookIsDeleted() {
         var commentsBeforeDeleteBook = commentRepository.findAll();
         assertThat(commentsBeforeDeleteBook).hasSize(4);
 

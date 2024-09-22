@@ -55,7 +55,7 @@ public class LibraryMongoDbChangelogs {
         );
 
         for (int i = 0; i < genresForBooks.size(); i++) {
-            books.add(new Book(String.valueOf(i+1), "Books_" + (i + 1), authors.get(i), genresForBooks.get(i)));
+            books.add(new Book(String.valueOf(i + 1), "Books_" + (i + 1), authors.get(i), genresForBooks.get(i)));
         }
         repository.saveAll(books);
     }

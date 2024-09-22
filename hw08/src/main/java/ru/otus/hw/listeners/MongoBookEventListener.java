@@ -1,30 +1,26 @@
 package ru.otus.hw.listeners;
 
 import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.AfterDeleteEvent;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Comment;
+import ru.otus.hw.repositories.MongoCommentRepository;
 
 @Component
 public class MongoBookEventListener extends AbstractMongoEventListener<Book> {
 
-    private final MongoTemplate mongoTemplate;
+    private final MongoCommentRepository mongoCommentRepository;
 
-    @Autowired
-    public MongoBookEventListener(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    public MongoBookEventListener(MongoCommentRepository mongoCommentRepository) {
+        this.mongoCommentRepository = mongoCommentRepository;
     }
 
     @Override
     public void onAfterDelete(AfterDeleteEvent<Book> event) {
         Document document = event.getDocument();
-        String bookId = document.get("_id").toString();
-        mongoTemplate.remove(Query.query(Criteria.where("bookId").is(bookId)), Comment.class);
+        var bookId = document.get("_id").toString();
+        var commentsByBookId = mongoCommentRepository.findByBookId(bookId);
+        mongoCommentRepository.deleteAll(commentsByBookId);
     }
 }

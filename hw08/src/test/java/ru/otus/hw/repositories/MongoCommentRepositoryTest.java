@@ -20,10 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Mongo repository для работы с комментариями")
 @DataMongoTest
 public class MongoCommentRepositoryTest {
+    private static List<Comment> comments = new ArrayList<>();
     @Autowired
     private MongoCommentRepository repository;
-
-    private static List<Comment> comments = new ArrayList<>();
 
     @BeforeAll
     public static void setup() {
