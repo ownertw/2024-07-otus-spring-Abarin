@@ -89,7 +89,7 @@ public class MongoCommentRepositoryTest {
     @Test
     @DisplayName("должен сохранять измененный комментарий")
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-    void shouldSaveUpdatedBook() {
+    void shouldSaveUpdatedComment() {
         var commentId = comments.get(0).getId();
         var expectedComment = new Comment(commentId, "UpdatedBook", comments.get(0).getBook());
         assertThat(repository.findById(commentId))
@@ -111,10 +111,24 @@ public class MongoCommentRepositoryTest {
     @Test
     @DisplayName("должен удалять комментарий по id ")
     @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-    void shouldDeleteBook() {
+    void shouldDeleteComment() {
         var commentId = comments.get(0).getId();
         assertThat(repository.findById(commentId)).isPresent();
         repository.deleteById(commentId);
         assertThat(repository.findById(commentId)).isNotPresent();
+    }
+
+
+    @Test
+    @DisplayName("должен удалять комментарий по id книги ")
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    void shouldDeleteCommentBookId() {
+        var bookId = comments.get(0).getBook().getId();
+        assertThat(repository.existsByBookId(bookId)).isTrue();
+
+        repository.deleteByBookId(bookId);
+
+        assertThat(repository.existsByBookId(bookId)).isFalse();
+
     }
 }

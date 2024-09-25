@@ -12,6 +12,7 @@ import ru.otus.hw.converters.GenreConverter;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.repositories.MongoCommentRepository;
 import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.BookServiceImpl;
 
@@ -29,6 +30,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BookServiceTest {
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private MongoCommentRepository mongoCommentRepository;
 
     @Test
     @DisplayName("должен возвращать все книги")
@@ -86,6 +90,18 @@ public class BookServiceTest {
         assertThat(actualBooks).doesNotContain(getExpectedBooks().get(0));
         assertThat(actualBooks).containsExactly(getExpectedBooks().get(1), getExpectedBooks().get(2));
     }
+
+    @Test
+    @DisplayName("должен удалять комментарий, если удалилась книга")
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    void shouldDeleteCommentAfterDeleteBook() {
+        assertThat(mongoCommentRepository.existsByBookId("1")).isTrue();
+
+        bookService.deleteById("1");
+
+        assertThat(mongoCommentRepository.existsByBookId("1")).isFalse();
+    }
+
 
     public List<BookDto> getExpectedBooks() {
         return List.of(

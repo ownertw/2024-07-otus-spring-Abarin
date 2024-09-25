@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface MongoCommentRepository extends MongoRepository<Comment, String> {
     List<Comment> findByBookId(String bookId);
+
+    void deleteByBookId(String bookId);
+
+    boolean existsByBookId(String bookId);
 }
