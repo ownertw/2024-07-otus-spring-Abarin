@@ -86,7 +86,7 @@ class MongoBookRepositoryTest {
 
     @DisplayName("должен сохранять новую книгу")
     @Test
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldSaveNewBook() {
         var expectedBook = new Book("BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
@@ -103,7 +103,7 @@ class MongoBookRepositoryTest {
 
     @DisplayName("должен сохранять измененную книгу")
     @Test
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldSaveUpdatedBook() {
         var expectedBook = new Book("1", "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
@@ -126,7 +126,7 @@ class MongoBookRepositoryTest {
 
     @DisplayName("должен удалять книгу по id ")
     @Test
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldDeleteBook() {
         assertThat(repository.findById("1")).isPresent();
         repository.deleteById("1");

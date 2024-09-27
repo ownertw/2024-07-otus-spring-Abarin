@@ -72,7 +72,7 @@ public class MongoCommentRepositoryTest {
 
     @Test
     @DisplayName("должен сохранять новый комментарий")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldSaveNewComment() {
         var expectedComment = new Comment("newComment", comments.get(0).getBook());
         var returnedComment = repository.save(expectedComment);
@@ -88,7 +88,7 @@ public class MongoCommentRepositoryTest {
 
     @Test
     @DisplayName("должен сохранять измененный комментарий")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldSaveUpdatedComment() {
         var commentId = comments.get(0).getId();
         var expectedComment = new Comment(commentId, "UpdatedBook", comments.get(0).getBook());
@@ -110,7 +110,7 @@ public class MongoCommentRepositoryTest {
 
     @Test
     @DisplayName("должен удалять комментарий по id ")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldDeleteComment() {
         var commentId = comments.get(0).getId();
         assertThat(repository.findById(commentId)).isPresent();
@@ -121,7 +121,7 @@ public class MongoCommentRepositoryTest {
 
     @Test
     @DisplayName("должен удалять комментарий по id книги ")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldDeleteCommentBookId() {
         var bookId = comments.get(0).getBook().getId();
         assertThat(repository.existsByBookId(bookId)).isTrue();

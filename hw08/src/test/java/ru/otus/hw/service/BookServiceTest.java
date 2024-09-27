@@ -49,7 +49,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("должен добавлять новую книгу")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldSaveNewBook() {
         var author = new AuthorDto("1", "Author_1");
         var genre = new GenreDto("2", "Genre_2");
@@ -70,7 +70,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("должен изменять книгу")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldUpdateBook() {
         bookService.findById("1").ifPresent(bookDto -> {
             BookDto beforeUpdate = bookService.update("1", "BookTitle_Updated", "1", Set.of("2"));
@@ -83,7 +83,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("должен удалять книгу")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldDeleteBook() {
         bookService.deleteById("1");
         var actualBooks = bookService.findAll();
@@ -93,7 +93,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("должен удалять комментарий, если удалилась книга")
-    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void shouldDeleteCommentAfterDeleteBook() {
         assertThat(mongoCommentRepository.existsByBookId("1")).isTrue();
 
