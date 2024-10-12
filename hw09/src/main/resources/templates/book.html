@@ -148,10 +148,11 @@
             <a th:href="@{/books/}">
                 <button type="button">Cancel</button>
             </a>
-            <a th:href="@{/books/delete/{id}(id=${book.id})}">
-                <button type="button" class="delete-button">Delete</button>
-            </a>
         </div>
+    </form>
+    <form action="/books/delete" method="post" style="display:inline;">
+        <input type="hidden" th:value="${book.id}" th:name="bookId">
+        <button type="submit" class="delete-button">Delete</button>
     </form>
 </div>
 </body>

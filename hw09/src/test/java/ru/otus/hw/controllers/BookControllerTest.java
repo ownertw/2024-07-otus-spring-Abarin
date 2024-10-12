@@ -95,7 +95,8 @@ public class BookControllerTest {
         long id = 1L;
         doNothing().when(bookService).deleteById(id);
 
-        mockMvc.perform(get("/books/delete/{id}", id))
+        mockMvc.perform(post("/books/delete")
+                        .param("bookId", "1"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/books/"));
         verify(bookService, times(1)).deleteById(1);
