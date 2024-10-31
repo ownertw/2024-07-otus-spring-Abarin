@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw.dto.BookDtoIds;
+import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Genre;
 import ru.otus.hw.repositories.MongoAuthorRepository;
 import ru.otus.hw.repositories.MongoBookRepository;
 import ru.otus.hw.repositories.MongoGenreRepository;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,12 +51,16 @@ public class BookController {
     @PutMapping("/api/books/{id}")
     public Mono<ResponseEntity<Book>> updateBook(@PathVariable("id") String id,
                                                  @Valid @RequestBody BookDtoIds bookDtoIds) {
-        return bookRepository.findById(id)
-                .flatMap(existingBook -> createOrUpdateBook(bookDtoIds)
-                        .doOnNext(updatedBook -> updatedBook.setId(existingBook.getId()))
-                        .flatMap(bookRepository::save))
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+        return bookRepository.existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.just(ResponseEntity.notFound().build());
+                    }
+                    return createOrUpdateBook(bookDtoIds)
+                            .doOnNext(updatedBook -> updatedBook.setId(id))
+                            .flatMap(bookRepository::save)
+                            .map(ResponseEntity::ok);
+                });
     }
 
     @PostMapping("/api/books/")
@@ -67,13 +75,16 @@ public class BookController {
         Book book = new Book();
         book.setTitle(bookDtoIds.getTitle());
 
-        return authorRepository.findById(bookDtoIds.getAuthorId())
-                .flatMap(author -> {
+        Mono<Author> authorMono = authorRepository.findById(bookDtoIds.getAuthorId());
+        Mono<List<Genre>> genresMono = genreRepository.findAllById(bookDtoIds.getGenresIds()).collectList();
+
+        return Mono.zip(authorMono, genresMono)
+                .flatMap(tuple -> {
+                    Author author = tuple.getT1();
+                    List<Genre> genres = tuple.getT2();
                     book.setAuthor(author);
-                    return genreRepository.findAllById(bookDtoIds.getGenresIds())
-                            .collectList()
-                            .doOnNext(book::setGenres)
-                            .then(Mono.just(book));
+                    book.setGenres(genres);
+                    return Mono.just(book);
                 });
     }
 }
