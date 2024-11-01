@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-01--users_roles
+      author: owner_va
+      preConditions:
+        - tableExists:
+            tableName: users
+        - tableExists:
+            tableName: roles
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_users_roles_users
+                    references: users(id)
+                    deleteCascade: true
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_users_roles_roles
+                    references: roles(id)
+                    deleteCascade: true
+              - constraints:
+                  primaryKey:
+                    - book_id
+                    - genre_id
+                  primaryKeyName: pk_users_roles

@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-01-insert-roles
+      author: owner_va
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: role_name
+                  value: ROLE_USER
+              - column:
+                  name: role_description
+                  value: Regular user role
+
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: role_name
+                  value: ROLE_ADMIN
+              - column:
+                  name: role_description
+                  value: Administrator role

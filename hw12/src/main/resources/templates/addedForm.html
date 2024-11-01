@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Added new book</title>
+    <style type="text/css">
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        padding: 50px;
+    }
+
+    h3 {
+        color: steelblue;
+        text-align: center;
+    }
+
+    form {
+        background-color: white;
+        padding: 10px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .row {
+        margin-top: 10px;
+    }
+
+    label {
+        width: 120px;
+        margin-bottom: 0;
+    }
+
+    input[type="text"], select {
+        flex-grow: 1;
+        padding: 8px;
+        margin-left: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input:read-only {
+        background: lightgray;
+    }
+
+    button {
+        background-color: steelblue;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .cancel-button {
+        background-color: #ccc;
+        margin-left: 10px;
+    }
+
+    .cancel-button:hover {
+        background-color: #bbb;
+    }
+
+    .checkbox-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .checkbox-group div {
+        margin-bottom: 10px;
+    }
+
+    .delete-button {
+        background-color: red;
+    }
+
+    .delete-button:hover {
+        background-color: darkred;
+    }
+
+    .errors {
+        background-color: white;
+        padding: 10px;
+        max-width: 600px;
+        margin: auto;
+        color: red;
+    }
+
+    </style>
+</head>
+<body>
+<div>
+    <!-- Book added -->
+    <div class="errors" th:if="${errors != null}">
+        <label for="errors-output">Errors:</label>
+        <div id="errors-output" th:each="error : ${errors}">
+            <br/>
+            <div>
+                <span th:text="${error}"></span>
+            </div>
+        </div>
+    </div>
+    <form id="added-form" th:method="post" th:action="@{/books/save}">
+        <h3>Added new book:</h3>
+
+        <div class="row">
+            <label for="book-title-input">Title:</label>
+            <input id="book-title-input" name="title" type="text"/>
+        </div>
+
+        <div class="row">
+            <label for="author-select">Author:</label>
+            <select id="author-select" name="authorId">
+                <option th:each="author : ${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.fullName}"></option>
+            </select>
+        </div>
+
+        <div class="row">
+            <label>Genres:</label>
+            <div class="checkbox-group" th:each="genre : ${genres}">
+                <div>
+                    <input type="checkbox" th:name="'genresIds'"
+                           th:value="${genre.id}"/>
+                    <span th:text="${genre.name}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <button type="submit">Save</button>
+            <a th:href="@{/books/}">
+                <button type="button">Cancel</button>
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
