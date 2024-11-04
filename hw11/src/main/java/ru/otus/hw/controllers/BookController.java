@@ -56,7 +56,7 @@ public class BookController {
                     if (!exists) {
                         return Mono.just(ResponseEntity.notFound().build());
                     }
-                    return createOrUpdateBook(bookDtoIds)
+                    return createEntityBookWithoutId(bookDtoIds)
                             .doOnNext(updatedBook -> updatedBook.setId(id))
                             .flatMap(bookRepository::save)
                             .map(ResponseEntity::ok);
@@ -65,13 +65,13 @@ public class BookController {
 
     @PostMapping("/api/books/")
     public Mono<ResponseEntity<Book>> saveBook(@RequestBody @Valid BookDtoIds bookDtoIds) {
-        return createOrUpdateBook(bookDtoIds)
+        return createEntityBookWithoutId(bookDtoIds)
                 .flatMap(bookRepository::save)
                 .map(savedBook -> ResponseEntity.status(HttpStatus.CREATED).body(savedBook))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    private Mono<Book> createOrUpdateBook(BookDtoIds bookDtoIds) {
+    private Mono<Book> createEntityBookWithoutId(BookDtoIds bookDtoIds) {
         Book book = new Book();
         book.setTitle(bookDtoIds.getTitle());
 
