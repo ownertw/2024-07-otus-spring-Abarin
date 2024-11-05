@@ -9,14 +9,13 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -26,9 +25,4 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "role_description")
     private String roleDescription;
-
-    @Override
-    public String getAuthority() {
-        return roleName;
-    }
 }
