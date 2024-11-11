@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>404</title>
+    <style type="text/css">
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        padding: 50px;
+    }
+
+    h3 {
+        color: steelblue;
+        text-align: center;
+    }
+
+    form {
+        background-color: white;
+        padding: 10px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .row {
+        margin-top: 10px;
+    }
+
+    label {
+        width: 120px;
+        margin-bottom: 0;
+    }
+
+    input[type="text"], select {
+        flex-grow: 1;
+        padding: 8px;
+        margin-left: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input:read-only {
+        background: lightgray;
+    }
+
+    button {
+        background-color: steelblue;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .cancel-button {
+        background-color: #ccc;
+        margin-left: 10px;
+    }
+
+    .cancel-button:hover {
+        background-color: #bbb;
+    }
+
+    .checkbox-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .checkbox-group div {
+        margin-bottom: 10px;
+    }
+
+    .delete-button {
+        background-color: red;
+    }
+
+    .delete-button:hover {
+        background-color: darkred;
+    }
+
+    .errors {
+        background-color: white;
+        padding: 10px;
+        max-width: 600px;
+        margin: auto;
+        color: red;
+    }
+
+
+
+    </style>
+</head>
+<body>
+<div class="errors" th:if="${errors != null}">
+    <label for="errors-output">Errors:</label>
+    <div id="errors-output" th:each="error : ${errors}">
+        <br/>
+        <div>
+            <span th:text="${error}"></span>
+        </div>
+    </div>
+    <br/>
+    <a th:href="@{/books/}">
+        <button type="button">Cancel</button>
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-11-01-insert-users
+      author: owner_va
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  # admin
+                  value: $2a$10$ZRgXX.umjst7T9MagODnsO3drwS6Ayk7ZthIPWMS4kSeasG6acKPO
+              - column:
+                  name: is_account_non_expired
+                  valueBoolean: true
+              - column:
+                  name: is_account_on_locked
+                  valueBoolean: true
+              - column:
+                  name: is_credentials_non_expired
+                  valueBoolean: true
+              - column:
+                  name: enabled
+                  valueBoolean: true
