@@ -5,17 +5,17 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.repositories.AuthorRepository;
+import ru.otus.hw.services.AuthorService;
 
 @Component
 @RequiredArgsConstructor
 public class CustomHealthCheck implements HealthIndicator {
 
-    private final AuthorRepository authorRepository;
+    private final AuthorService authorService;
 
     @Override
     public Health health() {
-        if (authorRepository.count() != 0) {
+        if (!authorService.findAll().isEmpty()) {
             return Health.up().withDetail("message", "Авторы не пусты, можно работать").build();
         }
         return Health.down()

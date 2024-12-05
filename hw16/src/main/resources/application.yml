@@ -30,20 +30,22 @@ spring:
     rest:
       base-path: /hateoas
 
-  logging:
-    level:
-      ROOT: INFO
-    file:
-      name: "log.txt"
+logging:
+  level:
+    ROOT: INFO
+  file:
+    name: "log.txt"
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
   endpoint:
     health:
       show-details: always
+    logfile:
+      enabled: true
   health:
     defaults:
       enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: metrics, health, logfile
