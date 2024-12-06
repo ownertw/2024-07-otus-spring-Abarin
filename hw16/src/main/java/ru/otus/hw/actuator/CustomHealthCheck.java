@@ -15,7 +15,7 @@ public class CustomHealthCheck implements HealthIndicator {
 
     @Override
     public Health health() {
-        if (!authorService.findAll().isEmpty()) {
+        if (authorService.count() > 0) {
             return Health.up().withDetail("message", "Авторы не пусты, можно работать").build();
         }
         return Health.down()
