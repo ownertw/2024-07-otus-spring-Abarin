@@ -19,6 +19,7 @@ services:
       SPRING_DATASOURCE_URL: ${POSTGRESQL_URL:-jdbc:postgresql://postgresql:5432/db}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      JAVA_OPTS: "-XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0"
     depends_on: # знаю, что депрейейтед, не хочу писать healthcheck) Прошу понять и простить
       - postgresql
 
